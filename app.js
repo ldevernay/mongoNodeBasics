@@ -8,9 +8,10 @@ MongoClient.connect('mongodb://localhost:27017/video', (err,db) => {
 
   db.collection('movies').find({}).toArray((err, docs) => {
     docs.forEach((doc) => {
-      console.log(doc.title);
+      console.log(JSON.stringify(doc, undefined, 2));
     });
   });
 
   db.close();
+  console.log('Called find()');
 });
