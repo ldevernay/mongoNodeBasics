@@ -6,17 +6,19 @@ MongoClient.connect('mongodb://localhost:27017/crunchbase', (err,db) => {
   assert.equal(null, err);
   console.log("Successfully connected to the server.");
 
-  var query = {"category_code": "biotech"};
+  let query = {"category_code": "biotech"};
+  let projection = {"name": 1, "category_code": 1, "_id": 0}
 
-  db.collection('companies').find(query).toArray((err, docs) => {
-    assert.equal(err, null);
-    assert.notEqual(docs.length, 0);
-
-    docs.forEach((doc) => {
+  let cursor = db.collection('companies').find(query);
+  cursor.project(projection);
+  cursor.forEach(
+    (doc) => {
       console.log(`${doc.name} is a ${doc.category_code} company.`);
-    });
-
-    db.close();
-  });
-  console.log('Called find()');
+      console.log(doc);
+    },
+    (err) => {
+      assert.equal(err, null);
+      return db.close();
+    }
+  );
 });
