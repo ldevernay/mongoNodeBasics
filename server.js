@@ -10,7 +10,7 @@ let app = express();
 app.engine('html', engines.nunjucks);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/templates');
-// bodyParser is mandatory to fetch url data from post form
+//bodyParser is mandatory to fetch url data from post form
 app.use(bodyParser.urlencoded({extended: true}));
 
 MongoClient.connect('mongodb://localhost:27017/video', (err, db) => {
